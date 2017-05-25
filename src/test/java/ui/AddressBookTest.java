@@ -1,11 +1,18 @@
 package ui;
 
-import com.codeborne.selenide.Configuration;
-import com.codeborne.selenide.SelenideElement;
-import com.codeborne.selenide.WebDriverRunner;
+import com.codeborne.selenide.*;
+import com.codeborne.selenide.webdriver.WebDriverFactory;
+import com.sun.glass.ui.View;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.CollectionCondition.texts;
@@ -17,12 +24,33 @@ import static com.codeborne.selenide.Selenide.*;
 public class AddressBookTest {
 
   @Before
-  public void setUp() {
-    Configuration.remote="http://localhost:4444//wd/hub";
-    Configuration.browser="firefox";
+  public void setUp() throws MalformedURLException {
 
+
+    String grid="http://localhost:4444//wd/hub";
+    DesiredCapabilities cap=new DesiredCapabilities();
+    cap.setCapability("ignoreZoomSetting",true);
+    cap.setBrowserName("firefox");
+    WebDriver driver=new RemoteWebDriver(new URL(grid), cap);
+    WebDriverRunner.setWebDriver(driver);
+
+
+/*
+    Configuration.remote="http://localhost:4444//wd/hub";
+    Configuration.browser="internet explorer";
+    Configuration.timeout=6000;
     clearBrowserCookies();
     Configuration.startMaximized=true;
+    DesiredCapabilities cap=new DesiredCapabilities();
+    cap.setCapability("ignoreZoomSetting",true);
+
+    */
+
+
+
+// for internet explorer need to add -Dcapabilities.ignoreZoomSetting=true in VM option
+
+
     open("http://demo.vaadin.com/AddressBook/");
 
   }
